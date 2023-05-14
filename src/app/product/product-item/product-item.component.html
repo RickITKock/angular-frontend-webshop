@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="text-center" style="margin-top: 100px;" *ngIf="(productState | async).loading">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    <div *ngIf="!(productState | async).loading">
+      <div class="col-md-6">
+          <img
+              (error)="onError()"
+              #imagePath
+              src="{{ (currentProduct == null) ? noImageFoundImagePath :currentProduct.imagePath }}"
+              alt="No image found"
+              class="img-responsive"
+          />
+      </div>
+      <div class="col-md-6">
+        <h2>{{ (currentProduct == null) ? 'Create a new product' : currentProduct.name }}</h2>
+        <br>
+        <app-product-details
+          *ngIf="productPageMode === 'DETAILS'"
+          [product]="currentProduct"
+          (switchToEditMode)="handleSwitchToEditMode()">
+        </app-product-details>
+
+        <app-product-mutation
+          *ngIf="productPageMode === 'MUTATE'"
+          [failedLoadingImage]="failedLoadingImage"
+          [newOrExistingProduct]="currentProduct"
+          [visitedDetailsPage]="visitedDetailsPage"
+          (switchToDetailsMode)="handleSwitchToDetailsMode()">
+        </app-product-mutation>
+      </div>
+    </div>
+  </div>
+</div>

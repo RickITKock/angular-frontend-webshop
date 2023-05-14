@@ -1,0 +1,70 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+      <button
+          type="submit"
+          class="btn btn-default btn-lg btn-block"
+          [disabled]="!productForm.valid">
+              Save
+      </button>
+  </div>
+  <div class="form-group">
+      <a type="button"
+          (click)="handleOnBackPressed()"
+          class="btn btn-link btn-lg"
+          style="cursor: pointer;">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
+      </a>
+  </div>
+  <hr />
+  <div *ngIf="newOrExistingProduct != null">
+      <div class="form-group">
+        <input
+          formControlName="imagePath"
+          type="url"
+          class="form-control"
+          placeholder="Image path"
+        />
+      </div>
+      <div class="form-group">
+          <input
+              type="text"
+              class="form-control"
+              placeholder="Name of the product *"
+              formControlName="name"
+          />
+          <span
+          *ngIf="!productForm.get('name').valid && productForm.get('name').touched"
+          class="help-block">Please enter a valid name for the product!</span>
+      </div>
+      <div class="form-group">
+          <input
+              type="number"
+              class="form-control"
+              placeholder="Price of the product *"
+              formControlName="price"
+          />
+          <span
+          *ngIf="!productForm.get('price').valid && productForm.get('price').touched"
+          class="help-block">Please enter a valid name for the product!</span>
+      </div>
+      <div class="form-group">
+          <input
+              type="number"
+              class="form-control"
+              placeholder="Product stock *"
+              formControlName="stock"
+          />
+          <span
+          *ngIf="!productForm.get('stock').valid && productForm.get('stock').touched"
+          class="help-block">Please enter a valid number!</span>
+      </div>
+      <div class="form-group">
+          <textarea
+              rows="5"
+              class="form-control"
+              placeholder="Description"
+              formControlName="description"
+          ></textarea>
+      </div>
+  </div>
+</form>

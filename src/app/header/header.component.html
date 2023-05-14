@@ -1,0 +1,45 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+
+    <!-- Brand -->
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink="/">Brand</a>
+    </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+    <ul class="nav navbar-nav navbar-right">
+
+      <!-- Login link -->
+      <li routerLinkActive="active" >
+        <a routerLink="/account" *ngIf="(authState | async).user === null" style="cursor: pointer;">
+          <span class="glyphicon glyphicon-user" aria-hidden="true">
+          </span>
+        </a>
+      </li>
+
+      <!-- account -->
+      <li *ngIf="(authState | async).user !== null" routerLinkActive="active">
+        <a style="cursor: pointer;">
+          {{ (authState | async).user.email }}
+        </a>
+      </li>
+
+      <!-- Logout link -->
+      <li *ngIf="(authState | async).user !== null" routerLinkActive="active">
+        <a (click)="onLogout()" style="cursor: pointer;">
+          Logout
+        </a>
+      </li>
+
+      <!-- cart link -->
+      <li *ngIf="(shoppingCartState | async).numberOfItems > 0" routerLinkActive="active">
+        <a routerLink="/cart">
+          <span class="badge">
+            {{ (shoppingCartState | async).numberOfItems }}
+          </span>
+          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

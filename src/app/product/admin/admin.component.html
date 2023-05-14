@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="list-wrapper">
+              <table class="table table-striped borderless fixed-header">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2" class="text-center">Item</th>
+                      <th >Unit price</th>
+                      <th>Stock</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                  [hidden]="hideAllProductsPriorToDeletingThem"
+                  [@animateOut]="slideOut"
+                  (@animateOut.done)="endOfDeleteAllAnimation()">
+
+                    <tr
+                    class="text-left"
+                    [hidden]="!product.visible"
+                    *ngFor="let product of products"
+                    [@animateOut]="product.state"
+                    (@animateOut.done)="onEndDeleteProductAnimation()">
+                      <td></td>
+                      <td class="text-right">
+                        <img src="{{ product.imagePath }}" alt="Nike shoe" height=100px />
+                      </td>
+                      <td class="vcenter text-center">
+                        {{ product.name }}
+                      </td>
+                      <td class="vcenter">
+                        {{ product.price | currency:'EUR' }}
+                      </td>
+                      <td class="vcenter">
+                        {{ product.stock }}
+                      </td>
+                      <td class="text-center vcenter">
+                        <a routerLink="product/mutate/{{ product.id }}">Edit</a>&nbsp;|
+                        &nbsp;<a routerLink="product/details/{{ product.id }}">Details</a>&nbsp;|
+                        &nbsp;<a style="cursor: pointer;" (click)="startDeletingProduct(product)" >Delete</a>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+<br>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-12">
+        <div class="container">
+          <div class="pull-right">
+            <button
+              class="btn btn-primary"
+              (click)="startDeletingAllProducts()">
+                Delete all products
+            </button>
+            &nbsp;
+            <button
+              class="btn btn-primary"
+              (click)="fetchAllProducts()">
+                Fetch all products
+            </button>
+            &nbsp;
+            <a
+              type="button"
+              routerLink='product/mutate'
+              class="btn btn-default">
+                +Add new product
+            </a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

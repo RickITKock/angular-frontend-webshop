@@ -1,0 +1,49 @@
+.cart {
+  padding: 5%;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.subtotal {
+  margin-top: 20px;
+}
+
+dropdown-menu {
+  z-index: 1;
+  position:relative;
+}
+
+.list-wrapper {
+  height: 400px;
+  overflow-y: auto;
+}
+
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.fixed-header thead th {
+  position: sticky;
+  top: 0;
+  z-index: +1;
+  background-color: white;
+}
+
+.table-cell-container {
+  position: relative;
+  border: 1px solid;
+}
+
+.vcenter {
+    transform: translate(0, 50%)
+}
+
+.vcenter a {
+    cursor: pointer;
+}
+
+.borderless td, .borderless th {
+  border: none;
+}

@@ -1,0 +1,35 @@
+<div>
+  <form #productForm="ngForm">
+      <div class="form-group">
+          <button
+              (click)="handleButtonClick()"
+              type="button"
+              class="btn btn-default btn-lg btn-block">
+                  {{ userIsAdmin() ? 'Edit' : 'Add To Cart' }}
+          </button>
+      </div>
+      <div class="form-group">
+          <a type="button"
+              routerLink="/"
+              class="btn btn-link btn-lg"
+              style="cursor: pointer;">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
+          </a>
+      </div>
+      <hr />
+      <div *ngIf="product != null">
+          <div class="form-group">
+              <label for="pwd">Price:</label>
+              <p>{{ product.price | currency:'EUR' }}</p>
+          </div>
+          <div class="form-group">
+              <label for="pwd">Stock:</label>
+              <p>{{ product.stock }}</p>
+          </div>
+          <div class="form-group">
+              <label for="pwd">Description:</label>
+              <p>{{ product.description }}</p>
+          </div>
+      </div>
+  </form>
+</div>

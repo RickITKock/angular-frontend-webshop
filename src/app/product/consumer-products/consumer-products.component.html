@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="consumer-container">
+      <div *ngFor="let product of products" class="col-md-2 my-card">
+        <div class="no-highlight" routerLink="product/details/{{ product.id }}">
+          <img src="{{ product.imagePath }}" alt="Nike shoe" class="img-responsive" /><br>
+          <div class="my-card-container">
+            {{ product.name }}<br>
+            {{ product.price | currency:'EUR' }}<br>
+            {{ product.stock > 0? 'In stock' : 'Out of stock' }}
+          </div>
+        </div>
+        <button class="btn btn-info btn-block" (click)="addToCart(product.id)">Add to cart</button>
+      </div>
+    </div>
+  </div>
+</div>

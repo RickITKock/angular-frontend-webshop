@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="list-wrapper">
+              <table class="table table-striped borderless fixed-header">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2" class="text-center">Item</th>
+                      <th >Unit price</th>
+                      <th>Quantity</th>
+                      <th>Total price</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                  [hidden]="hideAllProductsPriorToDeletingThem"
+                  [@animateOut]="slideOut"
+                  (@animateOut.done)="endOfDeleteAllAnimation()">
+                    <tr
+                    [hidden]="!shoppingCartItem.visible"
+                    [@animateOut]="shoppingCartItem.state"
+                    (@animateOut.done)="onEndDeleteShoppingCartItemAnimation()"
+                    *ngFor="let shoppingCartItem of (shoppingCartState | async).shoppingCartItems"
+
+                    class="text-left">
+                      <td></td>
+                      <td style="cursor: pointer;" class="text-right" (click)="goToDetailsPage(shoppingCartItem.products.id)">
+                        <img src="{{ shoppingCartItem.products.imagePath }}" alt="Nike shoe" height=100px />
+                      </td>
+                      <td style="cursor: pointer;" class="vcenter text-center" (click)="goToDetailsPage(shoppingCartItem.products.id)">
+                        {{ shoppingCartItem.products.name }}
+                      </td>
+                      <td class="vcenter">
+                        {{ shoppingCartItem.products.price | currency: 'EUR' }}
+                      </td>
+                      <td class="vcenter">
+
+                        <select id="cars" class="btn btn-default btn-block" (change)="updateCartAmount(shoppingCartItem.carts, $event.target.value)">
+                          <option
+                          style="background-color: white;"
+                            *ngFor="let amount of createRange(shoppingCartItem.products.stock)"
+                            value="{{ amount }}"
+                            [selected]="amount == shoppingCartItem.carts.amount">
+                              {{ amount }}
+                          </option>
+                        </select>
+
+                      </td>
+                      <td class="vcenter">
+                        {{ shoppingCartItem.products.price * shoppingCartItem.carts.amount | currency: 'EUR' }}
+                      </td>
+                      <td class="text-center vcenter">
+                        &nbsp;<a style="cursor: pointer;" (click)="startDeletingShoppingCartItem(shoppingCartItem)" >Delete</a>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+<br>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-12">
+        <div class="container">
+          <div class="pull-right">
+            <button
+              class="btn btn-primary"
+              (click)="startDeletingAllItemsFromShoppingCart()">
+                Empty shopping cart
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="row subtotal">
+    <div class="col-md-4 pull-right">
+      <div class="cart">
+          YOUR ORDER
+          <hr />
+          Subtotal: {{ totalPrice | currency: 'EUR' }}
+          <br>
+          <br>
+          <a class="btn btn-primary btn-block" routerLink="/checkout" >Proceed to checkout</a>
+      </div>
+    </div>
+  </div>
+</div>
