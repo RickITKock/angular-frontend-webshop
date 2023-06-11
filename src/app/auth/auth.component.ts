@@ -1,31 +1,31 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Component } from '@angular/core'
-import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { IUserCredentials } from './interfaces/IUserCredentials.component';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { Store } from '@ngrx/store';
+import { Location } from "@angular/common";
+import { Component } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { IUserCredentials } from "./interfaces/IUserCredentials.component";
 
-import * as fromApp from '../app.reducer';
-import * as fromAuth from './store/auth.reducer';
-import * as AuthenticationActions from './store/auth.actions';
-import * as AUTH_ROUTES from '../auth/auth.routes';
+import * as fromApp from "../app.reducer";
+import * as AUTH_ROUTES from "../auth/auth.routes";
+import * as AuthenticationActions from "./store/auth.actions";
+import * as fromAuth from "./store/auth.reducer";
 
-const LOGIN: string = 'LOGIN';
-const SIGNUP: string = 'SIGNUP';
+const LOGIN: string = "LOGIN";
+const SIGNUP: string = "SIGNUP";
 
 //=============================================================================
 
-@Component ({
-    selector: 'app-authentication',
-    templateUrl: './auth.component.html',
-    styleUrls: ['./auth.component.css']
+@Component({
+  selector: "app-authentication",
+  templateUrl: "./auth.component.html",
+  styleUrls: ["./auth.component.css"],
 })
 export class AuthenticationComponent {
   authState: Observable<fromAuth.State>;
@@ -35,13 +35,14 @@ export class AuthenticationComponent {
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private store: Store<fromApp.AppState>) {}
+    private store: Store<fromApp.AppState>
+  ) {}
 
   forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
       setTimeout(() => {
-        if (control.value === 'test@test.com') {
-          resolve({'emailIsForbidden': true});
+        if (control.value === "test@test.com") {
+          resolve({ emailIsForbidden: true });
         } else {
           resolve(null);
         }
@@ -52,36 +53,45 @@ export class AuthenticationComponent {
 
   ngOnInit() {
     const path: string = this.route.routeConfig.path;
-    this.authenticationMode = (path === "signup") ? SIGNUP : LOGIN;
-    this.authState = this.store.select('authentication');
+    this.authenticationMode = path === "signup" ? SIGNUP : LOGIN;
+    this.authState = this.store.select("authentication");
 
     this.authForm = new FormGroup({
-      'userData' : new FormGroup({
-        'email' : new FormControl(null, [Validators.required, Validators.required ], this.forbiddenEmails),
-        'password' : new FormControl(null, [Validators.required, Validators.minLength(6)])
-      })
+      userData: new FormGroup({
+        email: new FormControl(
+          null,
+          [Validators.required, Validators.required],
+          this.forbiddenEmails
+        ),
+        password: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(6),
+        ]),
+      }),
     });
   }
 
   onSwitchMode() {
-      if (this.authenticationMode === LOGIN) {
-        this.authenticationMode = SIGNUP;
-        this.location.go(AUTH_ROUTES.ABSOLUTE_PATH_SIGNUP);
-      } else {
-        this.authenticationMode = LOGIN;
-        this.location.go(AUTH_ROUTES.ABSOLUTE_PATH_LOGIN);
-      }
-      this.store.dispatch(new AuthenticationActions.ClearError());
-      this.store.dispatch(new AuthenticationActions.ClearSuccessStatus());
-      this.authForm.reset();
+    if (this.authenticationMode === LOGIN) {
+      this.authenticationMode = SIGNUP;
+      this.location.go(AUTH_ROUTES.ABSOLUTE_PATH_SIGNUP);
+    } else {
+      this.authenticationMode = LOGIN;
+      this.location.go(AUTH_ROUTES.ABSOLUTE_PATH_LOGIN);
+    }
+    this.store.dispatch(new AuthenticationActions.ClearError());
+    this.store.dispatch(new AuthenticationActions.ClearSuccessStatus());
+    this.authForm.reset();
   }
 
   onSubmit() {
-    if (!this.authForm.valid) { return; }
+    if (!this.authForm.valid) {
+      return;
+    }
 
     const userCredentials: IUserCredentials = {
-      email: this.authForm.get('userData').value.email,
-      password: this.authForm.get('userData').value.password
+      email: this.authForm.get("userData").value.email,
+      password: this.authForm.get("userData").value.password,
     };
 
     this.loginOrSubmitForm(this.authenticationMode, userCredentials);
@@ -104,18 +114,18 @@ export class AuthenticationComponent {
     this.store.dispatch(
       new AuthenticationActions.LoginStart({
         email: userCredentials.email,
-        password: userCredentials.password
+        password: userCredentials.password,
       })
-    )
+    );
   }
 
   private submitSignUpForm(userCredentials: IUserCredentials) {
     this.store.dispatch(
       new AuthenticationActions.SignupStart({
         email: userCredentials.email,
-        password: userCredentials.password
+        password: userCredentials.password,
       })
-    )
+    );
   }
 }
 

@@ -2,52 +2,56 @@
 Controls which mode an administrator is in and loads a product with the
 corresponding id, if any, in the address bar.
 
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
-import { ProductService } from '../services/product.service';
-import { Product } from '../../../models/product.model';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../../app.reducer';
-import { map, switchMap } from 'rxjs/operators';
-import * as fromProduct from '../store/product.reducer';
+import { Component, ElementRef, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { Observable, Subscription } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { Product } from "../../../models/product.model";
+import * as fromApp from "../../app.reducer";
+import { ProductService } from "../services/product.service";
+import * as fromProduct from "../store/product.reducer";
 
-export const MUTATE: string = 'MUTATE';
-export const DETAILS: string = 'DETAILS';
+export const MUTATE: string = "MUTATE";
+export const DETAILS: string = "DETAILS";
 
 //=============================================================================
 
 @Component({
-  selector: 'app-product-item',
-  templateUrl: './product-item.component.html',
-  styleUrls: ['./product-item.component.css']
+  selector: "app-product-item",
+  templateUrl: "./product-item.component.html",
+  styleUrls: ["./product-item.component.css"],
 })
 export class ProductItemComponent {
-  noImageFoundImagePath: string = "https://www.wiersmaverhuizingen.nl/wp-content/themes/consultix/images/no-image-found-360x260.png";
+  noImageFoundImagePath: string =
+    "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png";
   visitedDetailsPage: boolean = false;
   productPageMode: string = null;
   updatedImageSub: Subscription;
   currentProduct: Product;
   failedLoadingImage: boolean = false;
-  productState: Observable<fromProduct.State>
+  productState: Observable<fromProduct.State>;
 
-  @ViewChild('imagePath', {static: true}) imagePath: ElementRef;
+  @ViewChild("imagePath", { static: true }) imagePath: ElementRef;
 
   constructor(
     private router: Router,
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
-    private store: Store<fromApp.AppState>) {}
+    private store: Store<fromApp.AppState>
+  ) {}
 
   ngOnInit(): void {
-    const mode = this.activatedRoute.snapshot.paramMap.get('mode');
+    const mode = this.activatedRoute.snapshot.paramMap.get("mode");
     this.productPageMode = mode.toUpperCase();
-    const productId: number = +this.activatedRoute.snapshot.paramMap.get('id');
+    const productId: number = +this.activatedRoute.snapshot.paramMap.get("id");
+
+    console.log(productId);
     this.resolveProductByIdUsingAddressBar(productId);
     if (!productId) {
       this.currentProduct = new Product();
@@ -61,33 +65,36 @@ export class ProductItemComponent {
       let id: number;
       this.activatedRoute.params
         .pipe(
-          map(params => {
-            return +params['id'];
+          map((params) => {
+            return +params["id"];
           }),
-          switchMap(productId => {
+          switchMap((productId) => {
             id = productId;
-            this.productState = this.store.select('products');
-            return this.store.select('products');
+            this.productState = this.store.select("products");
+            return this.store.select("products");
           }),
-          map(productState => {
+          map((productState) => {
             return productState.products.find((product) => {
               return +product.id === id;
-            })
+            });
           })
-        ).subscribe(product => {
+        )
+        .subscribe((product) => {
           if (!product) {
             this.loadImageNotfound();
           } else {
             this.currentProduct = product;
           }
-        })
+        });
     }
   }
 
   private updateImageSubscription() {
-    this.updatedImageSub = this.productService.updatedImagePath.subscribe(data => {
-      this.currentProduct.imagePath = data;
-    });
+    this.updatedImageSub = this.productService.updatedImagePath.subscribe(
+      (data) => {
+        this.currentProduct.imagePath = data;
+      }
+    );
   }
 
   onError() {
@@ -96,7 +103,9 @@ export class ProductItemComponent {
   }
 
   loadImageNotfound() {
-    if (this.currentProduct) { this.currentProduct.imagePath = this.noImageFoundImagePath; }
+    if (this.currentProduct) {
+      this.currentProduct.imagePath = this.noImageFoundImagePath;
+    }
   }
 
   handleSwitchToEditMode() {

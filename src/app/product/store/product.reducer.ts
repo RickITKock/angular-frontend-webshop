@@ -1,16 +1,16 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Product } from 'src/models/product.model';
-import * as Actions from './product.actions';
+import { Product } from "src/models/product.model";
+import * as Actions from "./product.actions";
 
 //=============================================================================
 
 export interface State {
-  products: Product [];
+  products: Product[];
   currentProduct: Product;
   editedProductIndex: number;
   productError: string;
@@ -24,12 +24,15 @@ const initialState: State = {
   editedProductIndex: -1,
   productError: null,
   loading: false,
-  redirect: false
+  redirect: false,
 };
 
 //=============================================================================
 
-export function productReducer(state = initialState, action: Actions.ProductActions) {
+export function productReducer(
+  state = initialState,
+  action: Actions.ProductActions
+) {
   switch (action.type) {
     case Actions.FETCH_SUCCESS:
       const currentProduct = action.payload;
@@ -37,7 +40,7 @@ export function productReducer(state = initialState, action: Actions.ProductActi
       return {
         ...state,
         productError: null,
-        currentProduct: currentProduct
+        currentProduct: currentProduct,
       };
 
     case Actions.FETCH_PRODUCTS:
@@ -45,41 +48,41 @@ export function productReducer(state = initialState, action: Actions.ProductActi
       return {
         ...state,
         loading: true,
-        productError: null
-      }
+        productError: null,
+      };
 
     case Actions.SET_PRODUCTS:
       return {
         ...state,
         products: [...action.payload],
-        loading: false
+        loading: false,
       };
 
     case Actions.DELETE_ALL_PRODUCTS_SUCCESS:
       return {
         ...state,
         products: [],
-      }
+      };
 
     case Actions.DELETE_PRODUCT:
       return {
         ...state,
-        productError: null
+        productError: null,
       };
 
     case Actions.MUTATE_FAIL:
       return {
         ...state,
         loading: false,
-        productError: action.payload
-      }
+        productError: action.payload,
+      };
 
     case Actions.MUTATE_SUCCESS:
       return {
         ...state,
         loading: false,
-        redirect: true
-      }
+        redirect: true,
+      };
 
     default:
       return state;

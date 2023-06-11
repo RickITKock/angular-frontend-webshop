@@ -1,23 +1,27 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Injectable } from '@angular/core';
-import { Actions, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../../app.reducer';
-import * as ProductActions from '../store/product.actions';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Product } from 'src/models/product.model';
-import { take, map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Injectable } from "@angular/core";
+import {
+  ActivatedRouteSnapshot,
+  Resolve,
+  RouterStateSnapshot,
+} from "@angular/router";
+import { Actions, ofType } from "@ngrx/effects";
+import { Store } from "@ngrx/store";
+import { of } from "rxjs";
+import { map, switchMap, take } from "rxjs/operators";
+import { Product } from "src/models/product.model";
+import * as fromApp from "../../app.reducer";
+import * as ProductActions from "../store/product.actions";
 
 //=============================================================================
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ProductResolverService implements Resolve<Product[]> {
   constructor(
@@ -26,12 +30,12 @@ export class ProductResolverService implements Resolve<Product[]> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.store.select('products').pipe(
+    return this.store.select("products").pipe(
       take(1),
-      map(productState => {
+      map((productState) => {
         return productState.products;
       }),
-      switchMap(products => {
+      switchMap((products) => {
         if (products.length === 0) {
           this.store.dispatch(new ProductActions.FetchProducts());
           return this.actions$.pipe(
@@ -42,7 +46,7 @@ export class ProductResolverService implements Resolve<Product[]> {
           return of(products);
         }
       })
-    )
+    );
   }
 }
 

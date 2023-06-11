@@ -1,15 +1,15 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
 export class Cart {
-    constructor (
-        public userId: string,
-        public productId: string,
-        public amount: number
-    ) {}
+  constructor(
+    public userId: string,
+    public productId: string,
+    public amount: number
+  ) {}
 }
 
 //=============================================================================

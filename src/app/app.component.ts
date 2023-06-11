@@ -1,23 +1,22 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as fromApp from './app.reducer';
-import * as AuthActions from './auth/store/auth.actions';
-import { User } from 'src/models/user.model';
-import { Observable } from 'rxjs';
+import { Component } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { User } from "src/models/user.model";
+import * as fromApp from "./app.reducer";
+import * as AuthActions from "./auth/store/auth.actions";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
+  selector: "app-root",
+  templateUrl: "./app.component.html",
 })
 
 //=============================================================================
-
 export class AppComponent {
   user: User = null;
 

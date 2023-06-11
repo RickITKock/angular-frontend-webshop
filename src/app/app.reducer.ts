@@ -1,13 +1,13 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { ActionReducerMap } from '@ngrx/store';
-import * as fromProducts from './product/store/product.reducer';
-import * as fromAuthentication from './auth/store/auth.reducer';
-import * as fromShoppingCart from './shopping-cart/store/shopping-cart.reducer';
+import { ActionReducerMap } from "@ngrx/store";
+import * as fromAuthentication from "./auth/store/auth.reducer";
+import * as fromProducts from "./product/store/product.reducer";
+import * as fromShoppingCart from "./shopping-cart/store/shopping-cart.reducer";
 
 export interface AppState {
   products: fromProducts.State;
@@ -18,7 +18,7 @@ export interface AppState {
 export const appReducer: ActionReducerMap<AppState> = {
   products: fromProducts.productReducer,
   authentication: fromAuthentication.authenticationReducer,
-  shoppingCart: fromShoppingCart.shoppingCartReducer
-}
+  shoppingCart: fromShoppingCart.shoppingCartReducer,
+};
 
 //=============================================================================

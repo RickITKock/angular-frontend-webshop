@@ -1,32 +1,32 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../../app.reducer'
-import * as ProductActions from '../store/product.actions'
-import { Product } from 'src/models/product.model';
-import { slideOutAnimation } from 'src/app/shared/animations/fade-out.animation';
-import { changeState } from 'src/app/shared/animations/change-state.animation';
-import { animateOut } from '../../shared/animations/animate-out.animation';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { changeState } from "src/app/shared/animations/change-state.animation";
+import { slideOutAnimation } from "src/app/shared/animations/fade-out.animation";
+import { Product } from "src/models/product.model";
+import * as fromApp from "../../app.reducer";
+import { animateOut } from "../../shared/animations/animate-out.animation";
+import * as ProductActions from "../store/product.actions";
 
 //=============================================================================
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css'],
-  animations: [slideOutAnimation, changeState, animateOut]
+  selector: "app-admin",
+  templateUrl: "./admin.component.html",
+  styleUrls: ["./admin.component.css"],
+  animations: [slideOutAnimation, changeState, animateOut],
 })
 export class AdminComponent implements OnInit {
   @Input() products: Product[];
   @Output() fetchAllProductsEmitter = new EventEmitter<void>();
   hideAllProductsPriorToDeletingThem: boolean = false;
   calledEndAnimationOnce: boolean = false;
-  slideOut: string = 'normal';
+  slideOut: string = "normal";
   product: Product = null;
 
   constructor(private store: Store<fromApp.AppState>) {}
@@ -49,7 +49,7 @@ export class AdminComponent implements OnInit {
   startDeletingAllProducts() {
     if (this.adminIsSureToDelete()) {
       this.calledEndAnimationOnce = true;
-      this.slideOut = 'slideOut';
+      this.slideOut = "slideOut";
     }
   }
 
@@ -63,7 +63,7 @@ export class AdminComponent implements OnInit {
 
   startDeletingProduct(product) {
     if (this.adminIsSureToDelete()) {
-      product.state = (product.state === 'normal') ? 'slideOut' : 'normal';
+      product.state = product.state === "normal" ? "slideOut" : "normal";
       this.product = product;
     }
   }
@@ -77,7 +77,7 @@ export class AdminComponent implements OnInit {
   }
 
   private adminIsSureToDelete(): boolean {
-    return confirm('Are you sure?');
+    return confirm("Are you sure?");
   }
 }
 

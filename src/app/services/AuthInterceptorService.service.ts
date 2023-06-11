@@ -1,29 +1,32 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
-import * as fromApp from '../../app/app.reducer';
-import { Store } from '@ngrx/store';
-import { Injectable } from '@angular/core';
-import { take, map, exhaustMap } from 'rxjs/operators';
+import {
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { exhaustMap, map, take } from "rxjs/operators";
+import * as fromApp from "../../app/app.reducer";
 
 //=============================================================================
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-
   constructor(private store: Store<fromApp.AppState>) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    return this.store.select('authentication').pipe(
+    return this.store.select("authentication").pipe(
       take(1),
-      map(authState => {
+      map((authState) => {
         return authState.user;
       }),
-      exhaustMap(user => {
+      exhaustMap((user) => {
         if (!user) {
           return next.handle(request);
         }
@@ -33,7 +36,7 @@ export class AuthInterceptorService implements HttpInterceptor {
         // modify the request here
         return next.handle(modifiedRequest);
       })
-    )
+    );
   }
 }
 

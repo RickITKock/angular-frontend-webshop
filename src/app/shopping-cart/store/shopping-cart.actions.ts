@@ -1,26 +1,28 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Action } from '@ngrx/store';
-import { Cart } from 'src/models/cart.model';
-import { ShoppingCartItem } from 'src/models/shopping-cart-item.model';
+import { Action } from "@ngrx/store";
+import { Cart } from "src/models/cart.model";
+import { ShoppingCartItem } from "src/models/shopping-cart-item.model";
 
-export const SET_SHOPPING_CART = '[ShoppingCart] Set Shopping Cart';
-export const FETCH_SHOPPING_CART = '[ShoppingCart] Fetch Shopping Cart';
-export const FETCH_SUCCESS = '[ShoppingCart] Fetch Shopping Cart Success';
+export const SET_SHOPPING_CART = "[ShoppingCart] Set Shopping Cart";
+export const FETCH_SHOPPING_CART = "[ShoppingCart] Fetch Shopping Cart";
+export const FETCH_SUCCESS = "[ShoppingCart] Fetch Shopping Cart Success";
 
-export const CLEAR_CART = '[Cart] Clear cart';
-export const ADD_TO_CART = '[Cart] Add To Cart';
-export const UPDATE_CART = '[Cart] Update Cart';
-export const ADD_OR_UPDATE_CART_FAIL = '[Cart] Adding New Cart Or Updating Cart Fail';
-export const ADD_OR_UPDATE_CART_SUCCESS = '[Cart] Adding New Cart Or Updating Cart Success';
-export const CLEAR_ERROR = '[Cart] Clear Error';
+export const CLEAR_CART = "[Cart] Clear cart";
+export const ADD_TO_CART = "[Cart] Add To Cart";
+export const UPDATE_CART = "[Cart] Update Cart";
+export const ADD_OR_UPDATE_CART_FAIL =
+  "[Cart] Adding New Cart Or Updating Cart Fail";
+export const ADD_OR_UPDATE_CART_SUCCESS =
+  "[Cart] Adding New Cart Or Updating Cart Success";
+export const CLEAR_ERROR = "[Cart] Clear Error";
 
-export const DELETE_CART_ITEM = '[Cart] Delete Cart Item';
-export const DELETE_ALL_CART_ITEMS = '[Cart] Delete All Cart Items';
+export const DELETE_CART_ITEM = "[Cart] Delete Cart Item";
+export const DELETE_ALL_CART_ITEMS = "[Cart] Delete All Cart Items";
 
 //=============================================================================
 
@@ -57,7 +59,7 @@ export class AddToCart implements Action {
 export class UpdateCart implements Action {
   readonly type = UPDATE_CART;
 
-  constructor(public payload: Cart ) {}
+  constructor(public payload: Cart) {}
 }
 
 export class AddOrUpdateCartFail implements Action {
@@ -75,7 +77,7 @@ export class AddOrUpdateCartSuccess implements Action {
 export class DeleteCartItem implements Action {
   readonly type = DELETE_CART_ITEM;
 
-  constructor(public payload: {userId: number, productId: number}) {}
+  constructor(public payload: { userId: number; productId: number }) {}
 }
 
 export class DeleteAllCartItems implements Action {
@@ -100,6 +102,6 @@ export type ShoppingCartActions =
   | DeleteCartItem
   | DeleteAllCartItems
   | ClearCart
-  | UpdateCart
+  | UpdateCart;
 
 //=============================================================================

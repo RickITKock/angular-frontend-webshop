@@ -1,19 +1,19 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 //=============================================================================
 
-@Component ({
-    selector: 'app-loading-spinner',
-    template: '<div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>',
-    styleUrls: ['./loading-spinner.component.css']
+@Component({
+  selector: "app-loading-spinner",
+  template:
+    '<div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>',
+  styleUrls: ["./loading-spinner.component.css"],
 })
-
 export class LoadingSpinnerComponent {}
 
 //=============================================================================

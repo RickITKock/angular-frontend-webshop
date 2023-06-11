@@ -1,25 +1,26 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Action } from '@ngrx/store';
-import { Product } from 'src/models/product.model';
+import { Action } from "@ngrx/store";
+import { Product } from "src/models/product.model";
 
-export const SET_PRODUCTS = '[Products] Set Products';
-export const FETCH_PRODUCTS = '[Products] Fetch Products';
-export const FETCH_START = '[Product] Fetch Product Start';
-export const FETCH_SUCCESS = '[Product] Fetch Product Success';
+export const SET_PRODUCTS = "[Products] Set Products";
+export const FETCH_PRODUCTS = "[Products] Fetch Products";
+export const FETCH_START = "[Product] Fetch Product Start";
+export const FETCH_SUCCESS = "[Product] Fetch Product Success";
 
-export const START_MUTATE = '[Product] Start Mutate';
-export const MUTATE_FAIL = '[Product] Mutate Product Fail';
-export const MUTATE_SUCCESS = '[Product] Mutate Product Success';
-export const CLEAR_ERROR = '[Product] Clear Error';
+export const START_MUTATE = "[Product] Start Mutate";
+export const MUTATE_FAIL = "[Product] Mutate Product Fail";
+export const MUTATE_SUCCESS = "[Product] Mutate Product Success";
+export const CLEAR_ERROR = "[Product] Clear Error";
 
-export const DELETE_PRODUCT = '[Product] Delete Product';
-export const DELETE_ALL_PRODUCTS = '[Products] Delete All Products'
-export const DELETE_ALL_PRODUCTS_SUCCESS = '[Products] Delete All Products Success'
+export const DELETE_PRODUCT = "[Product] Delete Product";
+export const DELETE_ALL_PRODUCTS = "[Products] Delete All Products";
+export const DELETE_ALL_PRODUCTS_SUCCESS =
+  "[Products] Delete All Products Success";
 
 //=============================================================================
 
@@ -46,7 +47,7 @@ export class FetchStart implements Action {
 }
 
 export class FetchSuccess implements Action {
-  readonly type = FETCH_SUCCESS
+  readonly type = FETCH_SUCCESS;
 
   constructor(public payload: Product) {}
 }
@@ -92,6 +93,6 @@ export type ProductActions =
   | StartMutatingProduct
   | MutateSuccess
   | DeleteAllProduct
-  | DeleteAllProductSuccess
+  | DeleteAllProductSuccess;
 
 //=============================================================================

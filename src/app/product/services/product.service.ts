@@ -1,21 +1,21 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 
 //=============================================================================
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ProductService {
   updatedImagePath = new Subject<string>();
 
-  constructor() { }
+  constructor() {}
 }
 
 //=============================================================================

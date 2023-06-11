@@ -1,21 +1,17 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    PageNotFoundComponent
-  ],
-  declarations: [PageNotFoundComponent]
+  imports: [CommonModule, PageNotFoundComponent],
+  declarations: [PageNotFoundComponent],
 })
-
-export class MiscellaneousModule { }
+export class MiscellaneousModule {}
 
 //=============================================================================

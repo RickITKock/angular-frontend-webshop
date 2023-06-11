@@ -1,21 +1,21 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { switchMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { HttpClient } from '@angular/common/http';
-import * as ShoppingCartActions from './shopping-cart.actions';
-import { Cart } from 'src/models/cart.model';
-import { ShoppingCartItem } from 'src/models/shopping-cart-item.model';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Actions, Effect, ofType } from "@ngrx/effects";
+import { of } from "rxjs";
+import { catchError, map, switchMap } from "rxjs/operators";
+import { Cart } from "src/models/cart.model";
+import { ShoppingCartItem } from "src/models/shopping-cart-item.model";
+import * as ShoppingCartActions from "./shopping-cart.actions";
 
 //=============================================================================
 
-const SHOPPING_CART_URL:string = 'http://localhost:8080/shoppingCart';
+const SHOPPING_CART_URL: string = "http://localhost:8080/shopping-cart";
 
 export interface CartResponseData {
   userId: number;
@@ -24,39 +24,34 @@ export interface CartResponseData {
 }
 
 const handleError = (errorResponse: any) => {
-  const errorMessage: string = 'An unknown error has occurred';
+  const errorMessage: string = "An unknown error has occurred";
   return of(new ShoppingCartActions.AddOrUpdateCartFail(errorMessage));
-}
+};
 
 const handleSucessfulAddOrUpdateCart = (userId: number) => {
   return new ShoppingCartActions.FetchShoppingCart(userId);
-}
+};
 
 //=============================================================================
 
 @Injectable()
 export class ShoppingCartEffects {
-
-  constructor(
-    private actions$: Actions,
-    private http: HttpClient
-  ) {}
+  constructor(private actions$: Actions, private http: HttpClient) {}
 
   @Effect()
   addToCart = this.actions$.pipe(
     ofType(ShoppingCartActions.ADD_TO_CART),
     switchMap((data: ShoppingCartActions.AddToCart) => {
-      return this.http.post<Cart>(SHOPPING_CART_URL, data.payload)
-      .pipe(
+      return this.http.post<Cart>(SHOPPING_CART_URL, data.payload).pipe(
         map(() => {
           return handleSucessfulAddOrUpdateCart(+data.payload.userId);
-          }),
-          catchError(errorResponse => {
-            return handleError(errorResponse);
-          })
-        )
+        }),
+        catchError((errorResponse) => {
+          return handleError(errorResponse);
+        })
+      );
     })
-  )
+  );
 
   @Effect()
   updateCart = this.actions$.pipe(
@@ -65,42 +60,45 @@ export class ShoppingCartEffects {
       let userId: string = data.payload.userId;
       let productId: string = data.payload.productId;
 
-      return this.http.put<Cart>(`${SHOPPING_CART_URL}/${userId}/${productId}`, data.payload)
-      .pipe(
-        map(() => {
-          return handleSucessfulAddOrUpdateCart(+userId);
+      return this.http
+        .put<Cart>(`${SHOPPING_CART_URL}/${userId}/${productId}`, data.payload)
+        .pipe(
+          map(() => {
+            return handleSucessfulAddOrUpdateCart(+userId);
           }),
-          catchError(errorResponse => {
+          catchError((errorResponse) => {
             return handleError(errorResponse);
           })
-        )
+        );
     })
-  )
+  );
 
   @Effect()
   fetchShoppingCart = this.actions$.pipe(
     ofType(ShoppingCartActions.FETCH_SHOPPING_CART),
     switchMap((shoppingCartActions: ShoppingCartActions.FetchShoppingCart) => {
-      return this.http.get<ShoppingCartItem[]>(
-        `${SHOPPING_CART_URL}/${shoppingCartActions.payload}`
-      ).pipe(
-        map((shoppingCart: ShoppingCartItem[]) => {
-          return shoppingCart.map(shoppingCartItem => {
-            if (shoppingCartItem != null) {
-              return {
-                ...shoppingCartItem,
-                state: 'normal',
-                visible: true
+      return this.http
+        .get<ShoppingCartItem[]>(
+          `${SHOPPING_CART_URL}/${shoppingCartActions.payload}`
+        )
+        .pipe(
+          map((shoppingCart: ShoppingCartItem[]) => {
+            return shoppingCart.map((shoppingCartItem) => {
+              if (shoppingCartItem != null) {
+                return {
+                  ...shoppingCartItem,
+                  state: "normal",
+                  visible: true,
+                };
               }
-            }
+            });
+          }),
+          map((shoppingCart) => {
+            return new ShoppingCartActions.FetchSuccess(shoppingCart);
           })
-        }),
-        map((shoppingCart) => {
-          return new ShoppingCartActions.FetchSuccess(shoppingCart);
-        })
-      )
+        );
     })
-  )
+  );
 
   @Effect()
   productsDeleteOneProduct = this.actions$.pipe(
@@ -109,15 +107,18 @@ export class ShoppingCartEffects {
       let userId: number = productData.payload.userId;
       let productId: number = productData.payload.productId;
 
-      return this.http.delete<Cart>(`${SHOPPING_CART_URL}/${userId}/${productId}`)
+      return this.http
+        .delete<Cart>(`${SHOPPING_CART_URL}/${userId}/${productId}`)
         .pipe(
-          map(() => { return new ShoppingCartActions.FetchShoppingCart(userId)}),
-          catchError(errorResponse => {
+          map(() => {
+            return new ShoppingCartActions.FetchShoppingCart(userId);
+          }),
+          catchError((errorResponse) => {
             return handleError(errorResponse);
           })
-      )
+        );
     })
-  )
+  );
 
   @Effect()
   productsDeleteAllProducts = this.actions$.pipe(
@@ -125,15 +126,16 @@ export class ShoppingCartEffects {
     switchMap((productData: ShoppingCartActions.DeleteAllCartItems) => {
       let userId = productData.payload;
 
-      return this.http.delete(`${SHOPPING_CART_URL}/${userId}`)
-        .pipe(
-          map(() => { return new ShoppingCartActions.FetchShoppingCart(userId)}),
-          catchError(errorResponse => {
-            return handleError(errorResponse);
-          })
-      )
+      return this.http.delete(`${SHOPPING_CART_URL}/${userId}`).pipe(
+        map(() => {
+          return new ShoppingCartActions.FetchShoppingCart(userId);
+        }),
+        catchError((errorResponse) => {
+          return handleError(errorResponse);
+        })
+      );
     })
-  )
+  );
 }
 
 //==============================================================================

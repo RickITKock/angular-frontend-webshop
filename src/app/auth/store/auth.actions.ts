@@ -1,20 +1,20 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Action } from '@ngrx/store';
+import { Action } from "@ngrx/store";
 
-export const LOGIN_START = '[Auth] Login Start';
-export const LOGOUT = '[Auth] Logout';
-export const SIGNUP_START = '[Auth] Signup Start';
-export const AUTO_LOGIN = '[Auth] Auto Login';
-export const SIGN_UP_SUCCESS = '[Auth] Sign Up Success';
-export const AUTHENTICATE_SUCCESS = '[Auth] Login';
-export const AUTHENTICATE_FAIL = '[Auth] Login Fail';
-export const CLEAR_ERROR = '[Auth] Clear Error';
-export const CLEAR_SUCCESS_STATUS = '[Auth] Clear Success Status';
+export const LOGIN_START = "[Auth] Login Start";
+export const LOGOUT = "[Auth] Logout";
+export const SIGNUP_START = "[Auth] Signup Start";
+export const AUTO_LOGIN = "[Auth] Auto Login";
+export const SIGN_UP_SUCCESS = "[Auth] Sign Up Success";
+export const AUTHENTICATE_SUCCESS = "[Auth] Login";
+export const AUTHENTICATE_FAIL = "[Auth] Login Fail";
+export const CLEAR_ERROR = "[Auth] Clear Error";
+export const CLEAR_SUCCESS_STATUS = "[Auth] Clear Success Status";
 
 //=============================================================================
 
@@ -46,7 +46,7 @@ export class Logout implements Action {
 export class LoginStart implements Action {
   readonly type = LOGIN_START;
 
-  constructor(public payload: { email: string, password: string }) {}
+  constructor(public payload: { email: string; password: string }) {}
 }
 
 export class AuthenticateFail implements Action {
@@ -58,7 +58,7 @@ export class AuthenticateFail implements Action {
 export class SignupStart implements Action {
   readonly type = SIGNUP_START;
 
-  constructor(public payload: { email: string, password: string }) {}
+  constructor(public payload: { email: string; password: string }) {}
 }
 
 export class ClearError implements Action {
@@ -78,6 +78,6 @@ export type AuthenticationActions =
   | ClearError
   | AutoLogin
   | SignUpSuccess
-  | ClearSuccessStatus
+  | ClearSuccessStatus;
 
 //=============================================================================

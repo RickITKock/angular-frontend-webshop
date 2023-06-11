@@ -2,32 +2,32 @@
 Represents a form for either creating a new product or
 editing an existing one.
 
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../../models/user.model';
-import { Store } from '@ngrx/store';
-import { AuthenticationService } from 'src/app/auth/services/auth.service';
+import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { AuthenticationService } from "src/app/auth/services/auth.service";
+import { User } from "../../models/user.model";
 
-import * as fromApp from '../app.reducer';
-import * as ProductActions from './store/product.actions';
-import * as fromProduct from './store/product.reducer';
+import * as fromApp from "../app.reducer";
+import * as ProductActions from "./store/product.actions";
+import * as fromProduct from "./store/product.reducer";
 
 //=============================================================================
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: "app-home",
+  templateUrl: "./product.component.html",
+  styleUrls: ["./product.component.css"],
 })
 export class ProductComponent implements OnInit {
-  pageToRedirectUserTo : string;
+  pageToRedirectUserTo: string;
   user: User = null;
-  productState: Observable<fromProduct.State>
+  productState: Observable<fromProduct.State>;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -35,19 +35,19 @@ export class ProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productState = this.store.select('products');
+    this.productState = this.store.select("products");
     this.initializeUser();
     this.fetchAllProducts();
   }
 
   initializeUser() {
-    this.authenticationService.getApplicationUser().subscribe(user => {
+    this.authenticationService.getApplicationUser().subscribe((user) => {
       this.user = user;
     });
   }
 
   fetchAllProducts() {
-    this.store.dispatch(new ProductActions.FetchProducts())
+    this.store.dispatch(new ProductActions.FetchProducts());
   }
 
   userIsConsumer(): boolean {

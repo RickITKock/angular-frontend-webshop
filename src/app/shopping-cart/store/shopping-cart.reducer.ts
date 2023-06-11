@@ -1,11 +1,11 @@
 /*****************************************************************************
-@author
+@author Rick Kock
 ******************************************************************************/
 
 //=============================================================================
 
-import * as Actions from './shopping-cart.actions';
-import { ShoppingCartItem } from 'src/models/shopping-cart-item.model';
+import { ShoppingCartItem } from "src/models/shopping-cart-item.model";
+import * as Actions from "./shopping-cart.actions";
 
 //=============================================================================
 
@@ -20,56 +20,58 @@ const initialState: State = {
   numberOfItems: 0,
   shoppingCartItems: [],
   shoppingCartError: null,
-  loading: false
+  loading: false,
 };
 
 //=============================================================================
 
-export function shoppingCartReducer(state = initialState, action: Actions.ShoppingCartActions) {
+export function shoppingCartReducer(
+  state = initialState,
+  action: Actions.ShoppingCartActions
+) {
   switch (action.type) {
-
     case Actions.ADD_OR_UPDATE_CART_SUCCESS:
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
 
-      case Actions.ADD_OR_UPDATE_CART_FAIL:
-        return {
-          ...state,
-          loading: false,
-          shoppingCartError: action.payload
-        }
+    case Actions.ADD_OR_UPDATE_CART_FAIL:
+      return {
+        ...state,
+        loading: false,
+        shoppingCartError: action.payload,
+      };
 
-      case Actions.FETCH_SHOPPING_CART:
-        return {
-          ...state,
-          loading: true,
-          shoppingCartError: null
-        }
+    case Actions.FETCH_SHOPPING_CART:
+      return {
+        ...state,
+        loading: true,
+        shoppingCartError: null,
+      };
 
-      case Actions.FETCH_SUCCESS:
-        let fetchedShoppingCartItems: ShoppingCartItem[]  = [...action.payload];
+    case Actions.FETCH_SUCCESS:
+      let fetchedShoppingCartItems: ShoppingCartItem[] = [...action.payload];
 
-        let numberOfItemsCounted: number = 0;
-        fetchedShoppingCartItems.forEach(item => {
-          numberOfItemsCounted += item.carts.amount;
-        });
+      let numberOfItemsCounted: number = 0;
+      fetchedShoppingCartItems.forEach((item) => {
+        numberOfItemsCounted += item.carts.amount;
+      });
 
-        return {
-          ...state,
-          loading: false,
-          numberOfItems: numberOfItemsCounted,
-          shoppingCartItems: fetchedShoppingCartItems
-        };
+      return {
+        ...state,
+        loading: false,
+        numberOfItems: numberOfItemsCounted,
+        shoppingCartItems: fetchedShoppingCartItems,
+      };
 
-      case Actions.CLEAR_CART:
-        return {
-          numberOfItems: 0,
-          shoppingCartItems: [],
-          shoppingCartError: null,
-          loading: false
-        }
+    case Actions.CLEAR_CART:
+      return {
+        numberOfItems: 0,
+        shoppingCartItems: [],
+        shoppingCartError: null,
+        loading: false,
+      };
 
     default:
       return state;
