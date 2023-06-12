@@ -1,70 +1,101 @@
 <div class="container login-container">
-    <div class="row">
-      <div class="blur-glass-background col-md-offset-3 col-md-6">
-        <div class="login-form">
-            <h3>{{  (authenticationMode === 'LOGIN') ? 'Login' : 'Sign up' }}</h3>
+  <div class="row">
+    <div class="blur-glass-background col-md-offset-3 col-md-6">
+      <div class="login-form">
+        <h3>{{ authenticationMode === "LOGIN" ? "Login" : "Sign up" }}</h3>
+        <br />
+        <div *ngIf="(authState | async).loading">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
+        <div *ngIf="!(authState | async).loading">
+          <div
+            class="alert alert-danger"
+            *ngIf="(authState | async).errorStatus"
+          >
+            <h4>There was a problem</h4>
+            {{ (authState | async).errorStatus["error"] }}
+          </div>
+          <div
+            class="alert alert-info"
+            *ngIf="(authState | async).successStatus"
+          >
+            <h4>{{ (authState | async).successStatus }}</h4>
+          </div>
+          <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+            <div formGroupName="userData">
+              <div class="form-group">
+                <input
+                  formControlName="email"
+                  type="email"
+                  class="form-control input-lg"
+                  placeholder="Your Email *"
+                  name="email"
+                  email
+                  id="email"
+                  autocomplete="on"
+                />
+                <span
+                  *ngIf="
+                    !authForm.get('userData.email').valid &&
+                    authForm.get('userData.email').touched
+                  "
+                  class="help-block"
+                  >Please enter a valid email!</span
+                >
+              </div>
+              <div class="form-group">
+                <input
+                  formControlName="password"
+                  type="password"
+                  class="form-control input-lg"
+                  placeholder="Your Password *"
+                  name="password"
+                  minlength="2"
+                  id="password"
+                  autocomplete="on"
+                />
+                <span
+                  *ngIf="
+                    !authForm.get('userData.password').valid &&
+                    authForm.get('userData.password').touched
+                  "
+                  class="help-block"
+                >
+                  <span
+                    *ngIf="authForm.get('userData.password').errors['required']"
+                    >Please enter a valid password!</span
+                  >
+                  <span
+                    *ngIf="
+                      authForm.get('userData.password').errors['minlength']
+                    "
+                    >Please enter more characters!</span
+                  >
+                </span>
+              </div>
+            </div>
             <br />
-            <div *ngIf="(authState | async).loading">
-              <app-loading-spinner></app-loading-spinner>
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-lg btn-block btnSubmit"
+                [disabled]="!authForm.valid"
+              >
+                {{ authenticationMode === "LOGIN" ? "Login" : "Sign up" }}
+              </button>
             </div>
-            <div *ngIf="!(authState | async).loading">
-              <div class="alert alert-danger" *ngIf="(authState | async).errorStatus">
-                <h4>There was a problem</h4>
-                {{ (authState | async).errorStatus["error"] }}
-              </div>
-              <div class="alert alert-info" *ngIf="(authState | async).successStatus">
-                <h4>{{ (authState | async).successStatus }}</h4>
-              </div>
-              <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-                <div formGroupName="userData">
-                  <div class="form-group">
-                      <input
-                          formControlName="email"
-                          type="email"
-                          class="form-control input-lg"
-                          placeholder="Your Email *"
-                          name="email"
-                          email
-                          id="email"
-                          autocomplete="on"
-                           />
-                      <span
-                        *ngIf="!authForm.get('userData.email').valid && authForm.get('userData.email').touched"
-                        class="help-block">Please enter a valid email!</span>
-                    </div>
-                    <div class="form-group">
-                        <input
-                            formControlName="password"
-                            type="password"
-                            class="form-control input-lg"
-                            placeholder="Your Password *"
-                            name="password"
-                            minlength="2"
-                            id="password"
-                            autocomplete="on"
-                        />
-                        <span
-                        *ngIf="!authForm.get('userData.password').valid && authForm.get('userData.password').touched"
-                        class="help-block">
-                          <span *ngIf="authForm.get('userData.password').errors['required']">Please enter a valid password!</span>
-                          <span *ngIf="authForm.get('userData.password').errors['minlength']">Please enter more characters!</span>
-                      </span>
-                    </div>
-                  </div>
-                  <br />
-                  <div class="form-group">
-                      <button type="submit" class="btn btn-lg btn-block btnSubmit" [disabled]="!authForm.valid">
-                          {{ (authenticationMode === 'LOGIN') ? 'Login' : 'Sign up' }}
-                      </button>
-                  </div>
-                  <div class="form-group">
-                      <a type="button" class="switchToSignUp" (click)="onSwitchMode()">
-                          Switch to {{ (authenticationMode === 'LOGIN') ? 'Sign up' : 'Login' }}
-                      </a>
-                  </div>
-                </form>
+            <div class="form-group">
+              <a type="button" class="switchToSignUp" (click)="onSwitchMode()">
+                {{
+                  authenticationMode === "LOGIN"
+                    ? "Don't have an account yet?"
+                    : "Already have an account?"
+                }}
+              </a>
             </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
 </div>
